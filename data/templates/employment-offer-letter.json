@@ -1,0 +1,33 @@
+{
+  "id": "employment-offer-letter",
+  "name": "Employment Offer Letter",
+  "category": "employment",
+  "version": "1.0.0",
+  "description": "An employer offers a position to a candidate and sets out the key terms of employment.",
+  "fields": [
+    {"key": "letter_date", "label": "Letter date", "type": "date", "required": true},
+    {"key": "company_name", "label": "Company name", "type": "string", "required": true},
+    {"key": "candidate_name", "label": "Candidate name", "type": "string", "required": true},
+    {"key": "job_title", "label": "Job title", "type": "string", "required": true},
+    {"key": "manager_name", "label": "Reporting manager", "type": "string", "required": true},
+    {"key": "start_date", "label": "Start date", "type": "date", "required": true},
+    {"key": "salary_amount", "label": "Annual salary", "type": "number", "required": true},
+    {"key": "currency", "label": "Currency", "type": "string", "required": true, "default": "USD"},
+    {"key": "work_location", "label": "Work location", "type": "string", "required": true},
+    {"key": "probation_months", "label": "Probation period (months)", "type": "number", "required": false, "default": 3},
+    {"key": "notice_period_days", "label": "Notice period (days)", "type": "number", "required": true, "default": 30},
+    {"key": "offer_expiry_date", "label": "Offer expiry date", "type": "date", "required": true},
+    {"key": "signatory_name", "label": "Company signatory name", "type": "string", "required": true},
+    {"key": "signatory_title", "label": "Company signatory title", "type": "string", "required": true}
+  ],
+  "sections": [
+    {"id": "greeting", "title": "Offer", "required": true, "text": "{{letter_date}}\n\nDear {{candidate_name}},\n\n{{company_name}} (the \"Company\") is pleased to offer you the position of {{job_title}}, reporting to {{manager_name}}. This letter sets out the principal terms of your employment."},
+    {"id": "start", "title": "Start Date and Location", "required": true, "text": "Your employment will begin on {{start_date}}. Your primary place of work will be {{work_location}}."},
+    {"id": "compensation", "title": "Compensation", "required": true, "text": "Your annual base salary will be {{salary_amount}} {{currency}}, payable in accordance with the Company's regular payroll schedule and subject to applicable deductions and withholdings."},
+    {"id": "benefits", "title": "Benefits", "required": false, "text": "You will be eligible to participate in the benefit programs the Company makes available to employees in your position, subject to the terms of those programs, which the Company may amend from time to time."},
+    {"id": "probation", "title": "Probation", "required": false, "text": "Your first {{probation_months}} month(s) of employment will be a probationary period during which your performance and suitability for the role will be assessed."},
+    {"id": "termination", "title": "Notice of Termination", "required": true, "text": "Either you or the Company may end your employment by giving {{notice_period_days}} days' written notice, subject to applicable employment law."},
+    {"id": "conditions", "title": "Conditions", "required": true, "text": "This offer is conditional on your right to work in the country of employment and on satisfactory completion of any background checks disclosed to you. You will be asked to sign the Company's standard confidentiality and intellectual property assignment agreement."},
+    {"id": "acceptance", "title": "Acceptance", "required": true, "text": "This offer expires on {{offer_expiry_date}}. To accept, please sign and return a copy of this letter by that date.\n\nSincerely,\n{{signatory_name}}\n{{signatory_title}}, {{company_name}}\n\nAccepted and agreed:\n{{candidate_name}}"}
+  ]
+}

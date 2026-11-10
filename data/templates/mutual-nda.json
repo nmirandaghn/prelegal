@@ -1,0 +1,32 @@
+{
+  "id": "mutual-nda",
+  "name": "Mutual Non-Disclosure Agreement",
+  "category": "confidentiality",
+  "version": "1.0.0",
+  "description": "Two parties agree to protect each other's confidential information shared for a defined purpose.",
+  "fields": [
+    {"key": "effective_date", "label": "Effective date", "type": "date", "required": true},
+    {"key": "party_a_name", "label": "Party A legal name", "type": "string", "required": true},
+    {"key": "party_a_address", "label": "Party A address", "type": "text", "required": true},
+    {"key": "party_b_name", "label": "Party B legal name", "type": "string", "required": true},
+    {"key": "party_b_address", "label": "Party B address", "type": "text", "required": true},
+    {"key": "purpose", "label": "Purpose of disclosure", "type": "text", "required": true, "help": "The business purpose for which confidential information is shared."},
+    {"key": "term_years", "label": "Agreement term (years)", "type": "number", "required": true, "default": 2},
+    {"key": "survival_years", "label": "Confidentiality survival after termination (years)", "type": "number", "required": true, "default": 3},
+    {"key": "governing_law", "label": "Governing law (jurisdiction)", "type": "string", "required": true}
+  ],
+  "sections": [
+    {"id": "parties", "title": "Parties", "required": true, "text": "This Mutual Non-Disclosure Agreement (the \"Agreement\") is entered into as of {{effective_date}} between {{party_a_name}}, located at {{party_a_address}} (\"Party A\"), and {{party_b_name}}, located at {{party_b_address}} (\"Party B\"). Each party may act as a \"Disclosing Party\" or a \"Receiving Party\"."},
+    {"id": "purpose", "title": "Purpose", "required": true, "text": "The parties wish to exchange certain confidential information for the following purpose (the \"Purpose\"): {{purpose}}."},
+    {"id": "definition", "title": "Confidential Information", "required": true, "text": "\"Confidential Information\" means all non-public information disclosed by the Disclosing Party to the Receiving Party, whether orally, in writing or by any other means, that is marked confidential or that a reasonable person would understand to be confidential given its nature and the circumstances of disclosure."},
+    {"id": "exclusions", "title": "Exclusions", "required": true, "text": "Confidential Information does not include information that the Receiving Party can show: (a) is or becomes publicly available through no fault of the Receiving Party; (b) was lawfully known to the Receiving Party before disclosure; (c) is lawfully received from a third party without restriction; or (d) is independently developed without use of the Confidential Information."},
+    {"id": "obligations", "title": "Obligations of the Receiving Party", "required": true, "text": "The Receiving Party shall: (a) use the Confidential Information solely for the Purpose; (b) not disclose it to any third party except to its employees, advisers and contractors who need to know it and are bound by confidentiality obligations at least as protective as those in this Agreement; and (c) protect it with at least the same degree of care it uses for its own confidential information, and no less than reasonable care."},
+    {"id": "compelled", "title": "Compelled Disclosure", "required": true, "text": "If the Receiving Party is required by law or court order to disclose Confidential Information, it shall, where legally permitted, give the Disclosing Party prompt written notice and cooperate in seeking protective measures, and shall disclose only the portion legally required."},
+    {"id": "return", "title": "Return or Destruction", "required": true, "text": "Upon written request or termination of this Agreement, the Receiving Party shall promptly return or destroy all Confidential Information and confirm in writing that it has done so."},
+    {"id": "term", "title": "Term and Survival", "required": true, "text": "This Agreement remains in effect for {{term_years}} year(s) from the effective date. The obligations of confidentiality survive for {{survival_years}} year(s) after expiration or termination."},
+    {"id": "no_license", "title": "No License or Warranty", "required": true, "text": "All Confidential Information remains the property of the Disclosing Party. No license is granted by this Agreement. Confidential Information is provided \"as is\" without warranty of any kind."},
+    {"id": "remedies", "title": "Remedies", "required": true, "text": "Each party acknowledges that unauthorized disclosure may cause irreparable harm for which monetary damages would be inadequate, and that the Disclosing Party may seek injunctive relief in addition to any other available remedy."},
+    {"id": "general", "title": "General", "required": true, "text": "This Agreement is governed by the laws of {{governing_law}}. It is the entire agreement of the parties on its subject matter and may be amended only in writing signed by both parties. If any provision is unenforceable, the remainder stays in effect."},
+    {"id": "signatures", "title": "Signatures", "required": true, "text": "Signed by the duly authorized representatives of {{party_a_name}} and {{party_b_name}}."}
+  ]
+}

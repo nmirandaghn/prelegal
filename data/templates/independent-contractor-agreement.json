@@ -1,0 +1,34 @@
+{
+  "id": "independent-contractor-agreement",
+  "name": "Independent Contractor Agreement",
+  "category": "employment",
+  "version": "1.0.0",
+  "description": "A company engages an individual or business as an independent contractor, not an employee.",
+  "fields": [
+    {"key": "effective_date", "label": "Effective date", "type": "date", "required": true},
+    {"key": "company_name", "label": "Company legal name", "type": "string", "required": true},
+    {"key": "company_address", "label": "Company address", "type": "text", "required": true},
+    {"key": "contractor_name", "label": "Contractor name", "type": "string", "required": true},
+    {"key": "contractor_address", "label": "Contractor address", "type": "text", "required": true},
+    {"key": "scope_of_work", "label": "Scope of work", "type": "text", "required": true},
+    {"key": "compensation_amount", "label": "Compensation amount", "type": "number", "required": true},
+    {"key": "compensation_basis", "label": "Compensation basis", "type": "string", "required": true, "default": "per hour", "help": "For example: per hour, per day, fixed fee."},
+    {"key": "currency", "label": "Currency", "type": "string", "required": true, "default": "USD"},
+    {"key": "start_date", "label": "Start date", "type": "date", "required": true},
+    {"key": "end_date", "label": "End date", "type": "date", "required": false, "help": "Leave blank for an open-ended engagement."},
+    {"key": "termination_notice_days", "label": "Termination notice (days)", "type": "number", "required": true, "default": 14},
+    {"key": "governing_law", "label": "Governing law (jurisdiction)", "type": "string", "required": true}
+  ],
+  "sections": [
+    {"id": "parties", "title": "Parties", "required": true, "text": "This Independent Contractor Agreement (the \"Agreement\") is made as of {{effective_date}} between {{company_name}}, located at {{company_address}} (the \"Company\"), and {{contractor_name}}, located at {{contractor_address}} (the \"Contractor\")."},
+    {"id": "services", "title": "Services", "required": true, "text": "The Contractor shall provide the following services (the \"Services\"): {{scope_of_work}}. The Contractor decides the method, details and means of performing the Services."},
+    {"id": "term", "title": "Term", "required": true, "text": "The engagement begins on {{start_date}} and continues until {{end_date}} or, if no end date is stated, until terminated under this Agreement."},
+    {"id": "compensation", "title": "Compensation", "required": true, "text": "The Company shall pay the Contractor {{compensation_amount}} {{currency}} {{compensation_basis}}. The Contractor shall submit invoices and the Company shall pay undisputed amounts within 30 days of receipt."},
+    {"id": "relationship", "title": "Independent Contractor Status", "required": true, "text": "The Contractor is an independent contractor and not an employee, partner or agent of the Company. The Contractor is responsible for all taxes, insurance and benefits relating to the Contractor's own compensation and personnel, and is not entitled to Company employee benefits."},
+    {"id": "ip", "title": "Intellectual Property", "required": true, "text": "Work product created by the Contractor specifically for the Company under this Agreement is owned by the Company upon payment, and the Contractor assigns all rights in it to the Company. The Contractor retains ownership of pre-existing materials and grants the Company a non-exclusive license to use them as part of the work product."},
+    {"id": "confidentiality", "title": "Confidentiality", "required": true, "text": "The Contractor shall keep confidential all non-public information of the Company and use it only to perform the Services. This obligation survives termination."},
+    {"id": "termination", "title": "Termination", "required": true, "text": "Either party may terminate this Agreement on {{termination_notice_days}} days' written notice. The Company shall pay for Services satisfactorily performed up to the termination date."},
+    {"id": "general", "title": "General", "required": true, "text": "This Agreement is governed by the laws of {{governing_law}}. It is the entire agreement between the parties on its subject matter and may be amended only in writing signed by both parties."},
+    {"id": "signatures", "title": "Signatures", "required": true, "text": "Signed by {{company_name}} and {{contractor_name}}."}
+  ]
+}

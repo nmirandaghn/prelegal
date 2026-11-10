@@ -1,0 +1,35 @@
+{
+  "id": "residential-lease",
+  "name": "Residential Lease Agreement",
+  "category": "real-estate",
+  "version": "1.0.0",
+  "description": "A landlord leases a residential property to a tenant for a fixed term.",
+  "fields": [
+    {"key": "effective_date", "label": "Effective date", "type": "date", "required": true},
+    {"key": "landlord_name", "label": "Landlord name", "type": "string", "required": true},
+    {"key": "tenant_name", "label": "Tenant name", "type": "string", "required": true},
+    {"key": "property_address", "label": "Property address", "type": "text", "required": true},
+    {"key": "lease_start_date", "label": "Lease start date", "type": "date", "required": true},
+    {"key": "lease_end_date", "label": "Lease end date", "type": "date", "required": true},
+    {"key": "monthly_rent", "label": "Monthly rent", "type": "number", "required": true},
+    {"key": "currency", "label": "Currency", "type": "string", "required": true, "default": "USD"},
+    {"key": "rent_due_day", "label": "Rent due day of month", "type": "number", "required": true, "default": 1},
+    {"key": "security_deposit", "label": "Security deposit", "type": "number", "required": true},
+    {"key": "late_fee", "label": "Late fee", "type": "number", "required": false, "default": 0},
+    {"key": "pets_policy", "label": "Pets policy", "type": "string", "required": true, "default": "No pets are permitted without the Landlord's written consent"},
+    {"key": "governing_law", "label": "Governing law (jurisdiction)", "type": "string", "required": true}
+  ],
+  "sections": [
+    {"id": "parties", "title": "Parties and Property", "required": true, "text": "This Residential Lease Agreement (the \"Lease\") is made as of {{effective_date}} between {{landlord_name}} (the \"Landlord\") and {{tenant_name}} (the \"Tenant\"). The Landlord leases to the Tenant the residential property located at {{property_address}} (the \"Property\")."},
+    {"id": "term", "title": "Term", "required": true, "text": "The Lease begins on {{lease_start_date}} and ends on {{lease_end_date}}, unless renewed or terminated earlier in accordance with this Lease or applicable law."},
+    {"id": "rent", "title": "Rent", "required": true, "text": "The Tenant shall pay monthly rent of {{monthly_rent}} {{currency}}, due on day {{rent_due_day}} of each month. A late fee of {{late_fee}} {{currency}} applies to rent not received by its due date, to the extent permitted by law."},
+    {"id": "deposit", "title": "Security Deposit", "required": true, "text": "The Tenant shall pay a security deposit of {{security_deposit}} {{currency}} before taking possession. The Landlord shall hold and return the deposit, less lawful deductions for unpaid rent and damage beyond ordinary wear and tear, in accordance with applicable law."},
+    {"id": "use", "title": "Use of Property", "required": true, "text": "The Property is to be used solely as a private residence for the Tenant and permitted occupants. The Tenant shall not conduct unlawful activity on the Property or cause nuisance to neighbors."},
+    {"id": "pets", "title": "Pets", "required": true, "text": "{{pets_policy}}."},
+    {"id": "maintenance", "title": "Maintenance and Repairs", "required": true, "text": "The Tenant shall keep the Property clean and in good condition and promptly notify the Landlord of needed repairs. The Landlord shall maintain the structure and major systems of the Property in habitable condition as required by law."},
+    {"id": "entry", "title": "Landlord Entry", "required": true, "text": "The Landlord may enter the Property after giving reasonable notice as required by applicable law, or without notice in an emergency."},
+    {"id": "default", "title": "Default and Termination", "required": true, "text": "If the Tenant fails to pay rent or breaches this Lease and does not cure the breach within the period required by applicable law, the Landlord may terminate the Lease and pursue remedies available by law."},
+    {"id": "general", "title": "General", "required": true, "text": "This Lease is governed by the laws of {{governing_law}}. It is the entire agreement of the parties regarding the Property and may be amended only in writing signed by both parties."},
+    {"id": "signatures", "title": "Signatures", "required": true, "text": "Signed by {{landlord_name}} (Landlord) and {{tenant_name}} (Tenant)."}
+  ]
+}
