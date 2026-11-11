@@ -1,0 +1,117 @@
+{
+  "description": "Catalogue of the legal agreement templates in the templates/ directory.",
+  "retrieved": "2026-11-10",
+  "source": {
+    "name": "Common Paper",
+    "url": "https://github.com/CommonPaper"
+  },
+  "license": {
+    "name": "Creative Commons Attribution 4.0 International",
+    "spdx": "CC-BY-4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "file": "templates/LICENSE",
+    "attribution": "Templates by Common Paper (https://commonpaper.com), licensed under CC BY 4.0. Unmodified copies."
+  },
+  "templates": [
+    {
+      "id": "mutual-nda",
+      "name": "Mutual Non-Disclosure Agreement",
+      "category": "confidentiality",
+      "description": "Standard terms for two parties to protect each other's confidential information. Used together with a cover page that sets the business terms.",
+      "file": "templates/Mutual-NDA.md",
+      "cover_page_file": "templates/Mutual-NDA-coverpage.md",
+      "source_repo": "https://github.com/CommonPaper/Mutual-NDA",
+      "source_commit": "2a3068b6c0ab6015c440f541d5b215bc3ac2f4cb"
+    },
+    {
+      "id": "cloud-service-agreement",
+      "name": "Cloud Service Agreement",
+      "category": "commercial",
+      "description": "Standard terms under which a provider supplies a cloud service to a customer for a subscription period.",
+      "file": "templates/CSA.md",
+      "source_repo": "https://github.com/CommonPaper/CSA",
+      "source_commit": "3efceb01e3c8bfb7b302a5f34975aa2b084026a3"
+    },
+    {
+      "id": "software-license-agreement",
+      "name": "Software License Agreement",
+      "category": "commercial",
+      "description": "Standard terms under which a provider licenses software to a customer for installation and use.",
+      "file": "templates/Software-License-Agreement.md",
+      "source_repo": "https://github.com/CommonPaper/Software-License-Agreement",
+      "source_commit": "8ea7de38148a8a0c235b7aaf31487028c2e519ca"
+    },
+    {
+      "id": "professional-services-agreement",
+      "name": "Professional Services Agreement",
+      "category": "commercial",
+      "description": "Standard terms for a provider performing services for a customer under one or more statements of work (SOWs).",
+      "file": "templates/psa.md",
+      "source_repo": "https://github.com/CommonPaper/PSA",
+      "source_commit": "3fb650a72d229f6d6e6d64abebae5e83c6699535"
+    },
+    {
+      "id": "service-level-agreement",
+      "name": "Service Level Agreement",
+      "category": "commercial",
+      "description": "Terms for a cloud service's uptime target and the remedies when it is not met. Supplements a cloud service agreement.",
+      "file": "templates/sla.md",
+      "source_repo": "https://github.com/CommonPaper/SLA",
+      "source_commit": "5b0e6336f058a66c4976d70ecabf1f5fb9ef3af4"
+    },
+    {
+      "id": "pilot-agreement",
+      "name": "Pilot Agreement",
+      "category": "commercial",
+      "description": "A short-term agreement that lets a prospective customer test a product before committing to a longer-term deal.",
+      "file": "templates/Pilot-Agreement.md",
+      "source_repo": "https://github.com/CommonPaper/Pilot-Agreement",
+      "source_commit": "5e7cdd4678cd9d6b3178872cce4a01d632f41f14"
+    },
+    {
+      "id": "design-partner-agreement",
+      "name": "Design Partner Agreement",
+      "category": "commercial",
+      "description": "An agreement giving a design partner early access to a product in exchange for feedback.",
+      "file": "templates/design-partner-agreement.md",
+      "source_repo": "https://github.com/CommonPaper/Design-Partner-Agreement",
+      "source_commit": "ab676a7a4b68ae84f1cfdba9f49a514d3aaa6694"
+    },
+    {
+      "id": "partnership-agreement",
+      "name": "Partnership Agreement",
+      "category": "partnership",
+      "description": "Standard terms for two companies cooperating on a business relationship, with each party's obligations set out in a cover page.",
+      "file": "templates/Partnership-Agreement.md",
+      "source_repo": "https://github.com/CommonPaper/Partnership-Agreement",
+      "source_commit": "6edeb5a285206893cfd0ac482267db44d90f317c"
+    },
+    {
+      "id": "data-processing-agreement",
+      "name": "Data Processing Agreement",
+      "category": "data-protection",
+      "description": "Terms for a provider processing personal data on behalf of a customer. Supplements a commercial agreement.",
+      "file": "templates/DPA.md",
+      "source_repo": "https://github.com/CommonPaper/DPA",
+      "source_commit": "9f1c40d3fb0bb900397a919d058a9c0870f6b0f0"
+    },
+    {
+      "id": "business-associate-agreement",
+      "name": "Business Associate Agreement",
+      "category": "data-protection",
+      "description": "Terms for a provider handling protected health information (PHI) on behalf of a customer. Supplements a commercial agreement.",
+      "file": "templates/BAA.md",
+      "source_repo": "https://github.com/CommonPaper/BAA",
+      "source_commit": "5f1fd992df1d0c78bf69997e1881e4107fa75695"
+    },
+    {
+      "id": "ai-addendum",
+      "name": "AI Addendum",
+      "category": "addendum",
+      "description": "Terms covering a provider's AI services, including customer input and generated output. Supplements a commercial agreement.",
+      "file": "templates/AI-Addendum.md",
+      "source_repo": "https://github.com/CommonPaper/AI-Addendum",
+      "source_commit": "6d9b044df73a2477c177e5989fca7f8d27df9387"
+    }
+  ]
+}
