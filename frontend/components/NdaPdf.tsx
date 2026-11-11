@@ -1,38 +1,57 @@
-import {
-  Document,
-  Page,
-  StyleSheet,
-  Text,
-  View,
-} from "@react-pdf/renderer";
+import { Document, Font, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import {
   COVER_FOOTER,
   COVER_INTRO,
   COVER_SIGNING_LINE,
   PARTY_ROWS,
   buildCoverSections,
-  fieldValue,
+  resolveRuns,
   type Block,
   type NdaForm,
   type Run,
 } from "@/lib/nda";
+
+const FONT_FAMILY = "NotoSerif";
+let fontsRegisteredFrom: string | null = null;
+
+/**
+ * Register the bundled Noto Serif (Latin, Greek and Cyrillic; SIL OFL, see
+ * public/fonts/OFL.txt). The built-in PDF fonts only cover Latin-1, so names and
+ * addresses such as "Łódź" would lose characters.
+ *
+ * @param baseUrl where NotoSerif-Regular.ttf and NotoSerif-Bold.ttf are served:
+ * "/fonts" in the browser, or a directory path when rendering in Node.
+ */
+export function registerPdfFonts(baseUrl: string) {
+  if (fontsRegisteredFrom === baseUrl) return;
+  Font.register({
+    family: FONT_FAMILY,
+    fonts: [
+      { src: `${baseUrl}/NotoSerif-Regular.ttf`, fontWeight: 400 },
+      { src: `${baseUrl}/NotoSerif-Bold.ttf`, fontWeight: 700 },
+    ],
+  });
+  // Legal text reads better without automatic hyphenation (e.g. "incorpo-rating").
+  Font.registerHyphenationCallback((word) => [word]);
+  fontsRegisteredFrom = baseUrl;
+}
 
 const styles = StyleSheet.create({
   page: {
     paddingTop: 56,
     paddingBottom: 56,
     paddingHorizontal: 64,
-    fontFamily: "Times-Roman",
-    fontSize: 10.5,
-    lineHeight: 1.4,
+    fontFamily: FONT_FAMILY,
+    fontSize: 10,
+    lineHeight: 1.45,
     color: "#111",
   },
-  title: { fontFamily: "Times-Bold", fontSize: 20, marginBottom: 12 },
-  heading: { fontFamily: "Times-Bold", fontSize: 16, marginBottom: 10 },
-  kicker: { fontFamily: "Times-Bold", fontSize: 10, marginBottom: 6 },
-  sectionTitle: { fontFamily: "Times-Bold", marginTop: 10 },
+  title: { fontWeight: 700, fontSize: 19, marginBottom: 12 },
+  heading: { fontWeight: 700, fontSize: 15, marginBottom: 10 },
+  kicker: { fontWeight: 700, fontSize: 9.5, marginBottom: 6 },
+  sectionTitle: { fontWeight: 700, marginTop: 10 },
   paragraph: { marginBottom: 8, textAlign: "justify" },
-  bold: { fontFamily: "Times-Bold" },
+  bold: { fontWeight: 700 },
   small: { fontSize: 8.5, color: "#555", marginTop: 10 },
   table: { marginTop: 10, borderTopWidth: 1, borderLeftWidth: 1, borderColor: "#444" },
   row: { flexDirection: "row" },
@@ -43,34 +62,23 @@ const styles = StyleSheet.create({
     padding: 5,
     minHeight: 26,
   },
-  labelCell: { width: "22%", fontFamily: "Times-Bold" },
+  labelCell: { width: "22%", fontWeight: 700 },
   partyCell: { width: "39%", textAlign: "center" },
 });
 
 function PdfRuns({ runs, form }: { runs: Run[]; form: NdaForm }) {
   return (
     <>
-      {runs.map((run, i) => {
-        if (run.kind === "text") {
-          return (
-            <Text key={i} style={run.bold ? styles.bold : undefined}>
-              {run.text}
-            </Text>
-          );
-        }
-        const value = fieldValue(form, run.field);
-        return (
-          <Text key={i} style={styles.bold}>
-            {value || `[${run.field}]`}
-          </Text>
-        );
-      })}
+      {resolveRuns(runs, form).map((segment, i) => (
+        <Text key={i} style={segment.style === "plain" ? undefined : styles.bold}>
+          {segment.text}
+        </Text>
+      ))}
     </>
   );
 }
 
 export function NdaPdf({ terms, form }: { terms: Block[]; form: NdaForm }) {
-  const sections = buildCoverSections(form);
   return (
     <Document title="Mutual Non-Disclosure Agreement" author="Prelegal">
       <Page size="LETTER" style={styles.page}>
@@ -78,27 +86,29 @@ export function NdaPdf({ terms, form }: { terms: Block[]; form: NdaForm }) {
         <Text style={styles.kicker}>USING THIS MUTUAL NON-DISCLOSURE AGREEMENT</Text>
         <Text style={styles.paragraph}>{COVER_INTRO}</Text>
 
-        {sections.map((section) => (
-          <View key={section.title} wrap={false}>
-            <Text style={styles.sectionTitle}>{section.title}</Text>
-            {section.lines.some(Boolean) ? (
-              section.lines.map((line, i) => <Text key={i}>{line}</Text>)
-            ) : (
-              <Text>[{section.title}]</Text>
-            )}
+        {buildCoverSections(form).map((section) => (
+          <View key={section.title}>
+            <Text style={styles.sectionTitle} minPresenceAhead={30}>
+              {section.title}
+            </Text>
+            {section.lines.map((line, i) => (
+              <Text key={i}>{line}</Text>
+            ))}
           </View>
         ))}
 
-        <Text style={[styles.paragraph, { marginTop: 14 }]}>{COVER_SIGNING_LINE}</Text>
+        <Text style={[styles.paragraph, { marginTop: 14 }]} minPresenceAhead={120}>
+          {COVER_SIGNING_LINE}
+        </Text>
 
-        <View style={styles.table} wrap={false}>
-          <View style={styles.row}>
+        <View style={styles.table}>
+          <View style={styles.row} wrap={false}>
             <Text style={[styles.cell, styles.labelCell]} />
             <Text style={[styles.cell, styles.partyCell, styles.bold]}>PARTY 1</Text>
             <Text style={[styles.cell, styles.partyCell, styles.bold]}>PARTY 2</Text>
           </View>
           {PARTY_ROWS.map((row) => (
-            <View key={row.label} style={styles.row}>
+            <View key={row.label} style={styles.row} wrap={false}>
               <Text style={[styles.cell, styles.labelCell]}>{row.label}</Text>
               <Text style={[styles.cell, styles.partyCell]}>{row.get(form.party1)}</Text>
               <Text style={[styles.cell, styles.partyCell]}>{row.get(form.party2)}</Text>

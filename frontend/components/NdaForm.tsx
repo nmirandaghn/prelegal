@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import type { NdaForm as NdaFormValues, PartyDetails } from "@/lib/nda";
+import { parseYears, type NdaForm as NdaFormValues, type PartyDetails } from "@/lib/nda";
 
 interface Props {
   form: NdaFormValues;
@@ -15,7 +15,7 @@ function todayIso(): string {
 }
 
 const inputClass =
-  "w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:bg-zinc-100 disabled:text-zinc-400";
+  "w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm focus:border-indigo-500 focus:outline-hidden focus:ring-1 focus:ring-indigo-500 disabled:bg-zinc-100 disabled:text-zinc-400";
 
 function Field({
   label,
@@ -48,60 +48,83 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-function YearsRadio({
+function TermGroup({
   name,
-  checked,
-  onSelect,
-  label,
-  children,
+  legend,
+  hint,
+  mode,
+  yearsMode,
+  yearsLabel,
+  otherMode,
+  otherLabel,
+  years,
+  onModeChange,
+  onYearsChange,
 }: {
   name: string;
-  checked: boolean;
-  onSelect: () => void;
-  label: string;
-  children?: ReactNode;
+  legend: string;
+  hint: string;
+  mode: string;
+  yearsMode: string;
+  yearsLabel: string;
+  otherMode: string;
+  otherLabel: string;
+  years: string;
+  onModeChange: (mode: string) => void;
+  onYearsChange: (years: string) => void;
 }) {
+  const usingYears = mode === yearsMode;
+  const invalid = usingYears && parseYears(years) === null;
+  const hintId = `${name}-hint`;
+  const errorId = `${name}-error`;
   return (
-    <label className="flex items-center gap-2 text-sm text-zinc-800">
-      <input
-        type="radio"
-        name={name}
-        checked={checked}
-        onChange={onSelect}
-        className="h-4 w-4 accent-indigo-600"
-      />
-      <span>{label}</span>
-      {children}
-    </label>
-  );
-}
-
-function YearsInput({
-  id,
-  value,
-  disabled,
-  onChange,
-}: {
-  id: string;
-  value: string;
-  disabled: boolean;
-  onChange: (v: string) => void;
-}) {
-  return (
-    <>
-      <input
-        id={id}
-        type="number"
-        min={1}
-        step={1}
-        value={value}
-        disabled={disabled}
-        onChange={(e) => onChange(e.target.value)}
-        aria-label="Number of years"
-        className={`${inputClass} !w-20`}
-      />
-      <span className="text-sm text-zinc-600">year(s)</span>
-    </>
+    <fieldset className="space-y-2" aria-describedby={hintId}>
+      <legend className="text-sm font-medium text-zinc-800">{legend}</legend>
+      <p id={hintId} className="text-xs text-zinc-500">
+        {hint}
+      </p>
+      <div className="flex flex-wrap items-center gap-2 text-sm text-zinc-800">
+        <input
+          id={`${name}-${yearsMode}`}
+          type="radio"
+          name={name}
+          checked={usingYears}
+          onChange={() => onModeChange(yearsMode)}
+          className="h-4 w-4 accent-indigo-600"
+        />
+        <label htmlFor={`${name}-${yearsMode}`}>{yearsLabel}</label>
+        <input
+          type="number"
+          min={1}
+          max={999}
+          step={1}
+          value={years}
+          disabled={!usingYears}
+          onChange={(e) => onYearsChange(e.target.value)}
+          aria-label={`${legend}: number of years`}
+          aria-invalid={invalid}
+          aria-describedby={invalid ? errorId : undefined}
+          className={`${inputClass} !w-20`}
+        />
+        <span className="text-zinc-600">year(s) from Effective Date</span>
+      </div>
+      <div className="flex items-center gap-2 text-sm text-zinc-800">
+        <input
+          id={`${name}-${otherMode}`}
+          type="radio"
+          name={name}
+          checked={!usingYears}
+          onChange={() => onModeChange(otherMode)}
+          className="h-4 w-4 accent-indigo-600"
+        />
+        <label htmlFor={`${name}-${otherMode}`}>{otherLabel}</label>
+      </div>
+      {invalid && (
+        <p id={errorId} className="text-xs text-red-700">
+          Enter a whole number of years from 1 to 999.
+        </p>
+      )}
+    </fieldset>
   );
 }
 
@@ -205,64 +228,40 @@ export function NdaForm({ form, onChange }: Props) {
             <button
               type="button"
               onClick={() => set("effectiveDate", todayIso())}
-              className="shrink-0 rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50"
+              className="shrink-0 rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Today
             </button>
           </div>
         </Field>
 
-        <div className="space-y-2">
-          <p className="text-sm font-medium text-zinc-800">MNDA term</p>
-          <p className="text-xs text-zinc-500">The length of this MNDA.</p>
-          <YearsRadio
-            name="mnda-term"
-            label="Expires"
-            checked={form.mndaTermType === "expires"}
-            onSelect={() => set("mndaTermType", "expires")}
-          >
-            <YearsInput
-              id="mnda-term-years"
-              value={form.mndaTermYears}
-              disabled={form.mndaTermType !== "expires"}
-              onChange={(v) => set("mndaTermYears", v)}
-            />
-            <span className="text-sm text-zinc-600">from Effective Date</span>
-          </YearsRadio>
-          <YearsRadio
-            name="mnda-term"
-            label="Continues until terminated"
-            checked={form.mndaTermType === "untilTerminated"}
-            onSelect={() => set("mndaTermType", "untilTerminated")}
-          />
-        </div>
+        <TermGroup
+          name="mnda-term"
+          legend="MNDA term"
+          hint="The length of this MNDA."
+          mode={form.mndaTermType}
+          yearsMode="expires"
+          yearsLabel="Expires"
+          otherMode="untilTerminated"
+          otherLabel="Continues until terminated"
+          years={form.mndaTermYears}
+          onModeChange={(m) => set("mndaTermType", m as NdaFormValues["mndaTermType"])}
+          onYearsChange={(v) => set("mndaTermYears", v)}
+        />
 
-        <div className="space-y-2">
-          <p className="text-sm font-medium text-zinc-800">Term of confidentiality</p>
-          <p className="text-xs text-zinc-500">
-            How long Confidential Information is protected.
-          </p>
-          <YearsRadio
-            name="confidentiality"
-            label="For"
-            checked={form.confidentialityType === "years"}
-            onSelect={() => set("confidentialityType", "years")}
-          >
-            <YearsInput
-              id="confidentiality-years"
-              value={form.confidentialityYears}
-              disabled={form.confidentialityType !== "years"}
-              onChange={(v) => set("confidentialityYears", v)}
-            />
-            <span className="text-sm text-zinc-600">from Effective Date</span>
-          </YearsRadio>
-          <YearsRadio
-            name="confidentiality"
-            label="In perpetuity"
-            checked={form.confidentialityType === "perpetuity"}
-            onSelect={() => set("confidentialityType", "perpetuity")}
-          />
-        </div>
+        <TermGroup
+          name="confidentiality"
+          legend="Term of confidentiality"
+          hint="How long Confidential Information is protected."
+          mode={form.confidentialityType}
+          yearsMode="years"
+          yearsLabel="For"
+          otherMode="perpetuity"
+          otherLabel="In perpetuity"
+          years={form.confidentialityYears}
+          onModeChange={(m) => set("confidentialityType", m as NdaFormValues["confidentialityType"])}
+          onYearsChange={(v) => set("confidentialityYears", v)}
+        />
       </Section>
 
       <Section title="Governing law & jurisdiction">
